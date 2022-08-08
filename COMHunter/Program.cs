@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Runtime;
+using System.Reflection;
 
 namespace COMHunter
 {
@@ -43,6 +45,11 @@ namespace COMHunter
             foreach (COMServer server in servers)
             {
                 Console.WriteLine("{0} {1} ({2})", server.CLSID, server.ServerPath, server.Type);
+                Type t = Type.GetTypeFromCLSID(new Guid(server.CLSID));
+                MethodInfo[] methods = t.GetMethods();
+                foreach (MethodInfo m in methods) {
+                	Console.WriteLine("\t Method - " + m.Name);
+                }
             }
             return;
         }
